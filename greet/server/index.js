@@ -27,7 +27,7 @@ function main() {
     server.start();
   });
 
-  console.log(`Listening obn: ${addr}`);
+  console.log(`Listening on: ${addr}`);
 }
 
 main();
