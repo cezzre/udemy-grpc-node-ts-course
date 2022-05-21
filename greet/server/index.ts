@@ -4,7 +4,7 @@ import * as serviceImpl from "./service_impl";
 
 const addr = "localhost:50051";
 
-function cleanup(server) {
+function cleanup(server: grpc.Server) {
   console.log("Cleanup");
 
   if (server) {

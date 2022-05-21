@@ -1,6 +1,18 @@
-import { PrimesResponse, SumResponse } from "../proto/calculator_pb";
+import {
+  handleServerStreamingCall,
+  handleUnaryCall,
+} from "@grpc/grpc-js/build/src/server-call";
+import {
+  PrimesRequest,
+  PrimesResponse,
+  SumRequest,
+  SumResponse,
+} from "../proto/calculator_pb";
 
-export const sum = (call, callback) => {
+export const sum: handleUnaryCall<SumRequest, SumResponse> = (
+  call,
+  callback,
+) => {
   console.log("Sum was invoked");
 
   const sum = call.request
@@ -12,7 +24,10 @@ export const sum = (call, callback) => {
   callback(null, res);
 };
 
-export const primes = (call) => {
+export const primes: handleServerStreamingCall<
+  PrimesRequest,
+  PrimesResponse
+> = (call) => {
   console.log("Primes was invoked");
 
   let number = call.request.getNumber();

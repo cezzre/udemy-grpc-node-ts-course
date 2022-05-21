@@ -1,6 +1,10 @@
-import { GreetResponse } from "../proto/greet_pb";
+import { handleServerStreamingCall, handleUnaryCall } from "@grpc/grpc-js";
+import { GreetRequest, GreetResponse } from "../proto/greet_pb";
 
-export const greet = (call, callback) => {
+export const greet: handleUnaryCall<GreetRequest, GreetResponse> = (
+  call,
+  callback,
+) => {
   console.log("Greet was invoked");
 
   const res = new GreetResponse().setResult(
@@ -10,7 +14,10 @@ export const greet = (call, callback) => {
   callback(null, res);
 };
 
-export const greetManyTimes = (call) => {
+export const greetManyTimes: handleServerStreamingCall<
+  GreetRequest,
+  GreetResponse
+> = (call) => {
   console.log("GreetManyTimes was invoked");
 
   const res = new GreetResponse();

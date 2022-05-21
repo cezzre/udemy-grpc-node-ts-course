@@ -2,7 +2,7 @@ import * as grpc from "@grpc/grpc-js";
 import { GreetServiceClient } from "../proto/greet_grpc_pb";
 import { GreetRequest } from "../proto/greet_pb";
 
-function doGreet(client) {
+function doGreet(client: GreetServiceClient) {
   console.log("doGreet was invoked");
 
   const req = new GreetRequest().setFirstName("Clement");
@@ -16,7 +16,7 @@ function doGreet(client) {
   });
 }
 
-function doGreetManyTimes(client) {
+function doGreetManyTimes(client: GreetServiceClient) {
   console.log("doGreetManyTimes was invoked");
 
   const req = new GreetRequest().setFirstName("Clement");
