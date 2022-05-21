@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "gen:pb": "./scripts/gen.sh greet",
+    "greet:server": "node ./greet/server"
   },
   "keywords": [],
   "author": "",
