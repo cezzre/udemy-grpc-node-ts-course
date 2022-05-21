@@ -10,6 +10,15 @@ message SumResponse {
   double result = 1;
 }
 
+message PrimesRequest {
+  double number = 1;
+}
+
+message PrimesResponse {
+  double result = 1;
+}
+
 service CalculatorService {
   rpc Sum (SumRequest) returns (SumResponse);
+  rpc Primes (PrimesRequest) returns (stream PrimesResponse);
 }

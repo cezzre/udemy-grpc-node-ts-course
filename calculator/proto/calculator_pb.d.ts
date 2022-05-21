@@ -47,3 +47,43 @@ export namespace SumResponse {
         result: number,
     }
 }
+
+export class PrimesRequest extends jspb.Message { 
+    getNumber(): number;
+    setNumber(value: number): PrimesRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): PrimesRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: PrimesRequest): PrimesRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: PrimesRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): PrimesRequest;
+    static deserializeBinaryFromReader(message: PrimesRequest, reader: jspb.BinaryReader): PrimesRequest;
+}
+
+export namespace PrimesRequest {
+    export type AsObject = {
+        number: number,
+    }
+}
+
+export class PrimesResponse extends jspb.Message { 
+    getResult(): number;
+    setResult(value: number): PrimesResponse;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): PrimesResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: PrimesResponse): PrimesResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: PrimesResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): PrimesResponse;
+    static deserializeBinaryFromReader(message: PrimesResponse, reader: jspb.BinaryReader): PrimesResponse;
+}
+
+export namespace PrimesResponse {
+    export type AsObject = {
+        result: number,
+    }
+}
