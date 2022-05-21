@@ -1,6 +1,6 @@
-const grpc = require("@grpc/grpc-js");
-const { CalculatorServiceClient } = require("../proto/calculator_grpc_pb");
-const { SumRequest } = require("../proto/calculator_pb");
+import * as grpc from "@grpc/grpc-js";
+import { CalculatorServiceClient } from "../proto/calculator_grpc_pb";
+import { SumRequest } from "../proto/calculator_pb";
 
 function doSum(client) {
   console.log("doSum was invoked");

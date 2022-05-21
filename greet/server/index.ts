@@ -1,6 +1,6 @@
-const grpc = require("@grpc/grpc-js");
-const serviceImpl = require("./service_impl");
-const { CalculatorServiceService } = require("../proto/calculator_grpc_pb");
+import * as grpc from "@grpc/grpc-js";
+import { GreetServiceService } from "../proto/greet_grpc_pb";
+import * as serviceImpl from "./service_impl";
 
 const addr = "localhost:50051";
 
@@ -21,7 +21,7 @@ function main() {
     cleanup(server);
   });
 
-  server.addService(CalculatorServiceService, serviceImpl);
+  server.addService(GreetServiceService, serviceImpl);
 
   server.bindAsync(addr, creds, (err, _) => {
     if (err) {

@@ -1,13 +1,13 @@
-const pb = require("../proto/calculator_pb");
+import { SumResponse } from "../proto/calculator_pb";
 
-exports.sum = (call, callback) => {
+export const sum = (call, callback) => {
   console.log("Sum was invoked");
 
   const sum = call.request
     .getNumberList()
     .reduce((partialSum, a) => partialSum + a, 0);
 
-  const res = new pb.SumResponse().setResult(sum);
+  const res = new SumResponse().setResult(sum);
 
   callback(null, res);
 };

@@ -1,6 +1,6 @@
-const grpc = require("@grpc/grpc-js");
-const { GreetServiceClient } = require("../proto/greet_grpc_pb");
-const { GreetRequest } = require("../proto/greet_pb");
+import * as grpc from "@grpc/grpc-js";
+import { GreetServiceClient } from "../proto/greet_grpc_pb";
+import { GreetRequest } from "../proto/greet_pb";
 
 function doGreet(client) {
   console.log("doGreet was invoked");
