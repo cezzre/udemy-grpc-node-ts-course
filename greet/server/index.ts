@@ -1,10 +1,11 @@
-import * as grpc from "@grpc/grpc-js";
+import fs from "fs";
+import { Server, ServerCredentials } from "@grpc/grpc-js";
 import { GreetServiceService } from "../proto/greet_grpc_pb";
 import * as serviceImpl from "./service_impl";
 
 const addr = "localhost:50051";
 
-function cleanup(server: grpc.Server) {
+function cleanup(server: Server) {
   console.log("Cleanup");
 
   if (server) {
@@ -13,8 +14,16 @@ function cleanup(server: grpc.Server) {
 }
 
 function main() {
-  const server = new grpc.Server();
-  const creds = grpc.ServerCredentials.createInsecure();
+  const server = new Server();
+  const rootCert = fs.readFileSync("./ssl/ca.crt");
+  const certChain = fs.readFileSync("./ssl/server.crt");
+  const privateKey = fs.readFileSync("./ssl/server.pem");
+  const creds = ServerCredentials.createSsl(rootCert, [
+    {
+      cert_chain: certChain,
+      private_key: privateKey,
+    },
+  ]);
 
   process.on("SIGINT", () => {
     console.log("Caught interrupt signal");

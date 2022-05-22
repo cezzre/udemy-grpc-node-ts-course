@@ -1,3 +1,4 @@
+import fs from "fs";
 import { ChannelCredentials, Metadata } from "@grpc/grpc-js";
 import { GreetServiceClient } from "../proto/greet_grpc_pb";
 import { GreetRequest } from "../proto/greet_pb";
@@ -91,7 +92,8 @@ function doGreetWithDeadline(client: GreetServiceClient, ms: number) {
 }
 
 function main() {
-  const creds = ChannelCredentials.createInsecure();
+  const rootCert = fs.readFileSync("./ssl/ca.crt");
+  const creds = ChannelCredentials.createSsl(rootCert);
   const client = new GreetServiceClient("localhost:50051", creds);
 
   doGreet(client);

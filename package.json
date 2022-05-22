@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "gen:pb": "./scripts/gen.sh greet calculator",
+    "gen:ssl": "cd ssl && ../scripts/ssl.sh && cd ..",
     "greet:server": "ts-node ./greet/server",
     "greet:client": "ts-node ./greet/client",
     "calculator:server": "ts-node ./calculator/server",
