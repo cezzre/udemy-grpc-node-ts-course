@@ -5,6 +5,7 @@
 /* eslint-disable */
 
 import * as jspb from "google-protobuf";
+import * as sqrt_pb from "./sqrt_pb";
 
 export class SumRequest extends jspb.Message { 
     clearNumberList(): void;

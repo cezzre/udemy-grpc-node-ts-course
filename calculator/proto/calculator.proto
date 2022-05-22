@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package calculator;
 
+import "sqrt.proto";
+
 message SumRequest {
   repeated double number = 1;
 }
@@ -39,4 +41,5 @@ service CalculatorService {
   rpc Primes (PrimesRequest) returns (stream PrimesResponse);
   rpc Avg (stream AvgRequest) returns (AvgResponse);
   rpc Max (stream MaxRequest) returns (stream MaxResponse);
+  rpc Sqrt (SqrtRequest) returns (SqrtResponse);
 }

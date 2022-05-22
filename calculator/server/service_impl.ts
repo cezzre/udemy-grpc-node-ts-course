@@ -1,3 +1,4 @@
+import { status } from "@grpc/grpc-js";
 import {
   handleBidiStreamingCall,
   handleClientStreamingCall,
@@ -14,6 +15,7 @@ import {
   SumRequest,
   SumResponse,
 } from "../proto/calculator_pb";
+import { SqrtRequest, SqrtResponse } from "../proto/sqrt_pb";
 
 export const sum: handleUnaryCall<SumRequest, SumResponse> = (
   call,
@@ -92,4 +94,24 @@ export const max: handleBidiStreamingCall<MaxRequest, MaxResponse> = (call) => {
   });
 
   call.on("end", () => call.end());
+};
+
+export const sqrt: handleUnaryCall<SqrtRequest, SqrtResponse> = (
+  call,
+  callback,
+) => {
+  console.log("Sqrt was invoked");
+
+  const number = call.request.getNumber();
+
+  if (number < 0) {
+    callback({
+      code: status.INVALID_ARGUMENT,
+      message: `Number cannot be negative, received: ${number}`,
+    });
+  }
+
+  const res = new SqrtResponse().setResult(Math.sqrt(number));
+
+  callback(null, res);
 };

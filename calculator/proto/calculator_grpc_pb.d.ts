@@ -6,12 +6,14 @@
 
 import * as grpc from "@grpc/grpc-js";
 import * as calculator_pb from "./calculator_pb";
+import * as sqrt_pb from "./sqrt_pb";
 
 interface ICalculatorServiceService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
     sum: ICalculatorServiceService_ISum;
     primes: ICalculatorServiceService_IPrimes;
     avg: ICalculatorServiceService_IAvg;
     max: ICalculatorServiceService_IMax;
+    sqrt: ICalculatorServiceService_ISqrt;
 }
 
 interface ICalculatorServiceService_ISum extends grpc.MethodDefinition<calculator_pb.SumRequest, calculator_pb.SumResponse> {
@@ -50,6 +52,15 @@ interface ICalculatorServiceService_IMax extends grpc.MethodDefinition<calculato
     responseSerialize: grpc.serialize<calculator_pb.MaxResponse>;
     responseDeserialize: grpc.deserialize<calculator_pb.MaxResponse>;
 }
+interface ICalculatorServiceService_ISqrt extends grpc.MethodDefinition<sqrt_pb.SqrtRequest, sqrt_pb.SqrtResponse> {
+    path: "/calculator.CalculatorService/Sqrt";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<sqrt_pb.SqrtRequest>;
+    requestDeserialize: grpc.deserialize<sqrt_pb.SqrtRequest>;
+    responseSerialize: grpc.serialize<sqrt_pb.SqrtResponse>;
+    responseDeserialize: grpc.deserialize<sqrt_pb.SqrtResponse>;
+}
 
 export const CalculatorServiceService: ICalculatorServiceService;
 
@@ -58,6 +69,7 @@ export interface ICalculatorServiceServer extends grpc.UntypedServiceImplementat
     primes: grpc.handleServerStreamingCall<calculator_pb.PrimesRequest, calculator_pb.PrimesResponse>;
     avg: grpc.handleClientStreamingCall<calculator_pb.AvgRequest, calculator_pb.AvgResponse>;
     max: grpc.handleBidiStreamingCall<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
+    sqrt: grpc.handleUnaryCall<sqrt_pb.SqrtRequest, sqrt_pb.SqrtResponse>;
 }
 
 export interface ICalculatorServiceClient {
@@ -73,6 +85,9 @@ export interface ICalculatorServiceClient {
     max(): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
     max(options: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
     max(metadata: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
+    sqrt(request: sqrt_pb.SqrtRequest, callback: (error: grpc.ServiceError | null, response: sqrt_pb.SqrtResponse) => void): grpc.ClientUnaryCall;
+    sqrt(request: sqrt_pb.SqrtRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: sqrt_pb.SqrtResponse) => void): grpc.ClientUnaryCall;
+    sqrt(request: sqrt_pb.SqrtRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: sqrt_pb.SqrtResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class CalculatorServiceClient extends grpc.Client implements ICalculatorServiceClient {
@@ -88,4 +103,7 @@ export class CalculatorServiceClient extends grpc.Client implements ICalculatorS
     public avg(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: calculator_pb.AvgResponse) => void): grpc.ClientWritableStream<calculator_pb.AvgRequest>;
     public max(options?: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
     public max(metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
+    public sqrt(request: sqrt_pb.SqrtRequest, callback: (error: grpc.ServiceError | null, response: sqrt_pb.SqrtResponse) => void): grpc.ClientUnaryCall;
+    public sqrt(request: sqrt_pb.SqrtRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: sqrt_pb.SqrtResponse) => void): grpc.ClientUnaryCall;
+    public sqrt(request: sqrt_pb.SqrtRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: sqrt_pb.SqrtResponse) => void): grpc.ClientUnaryCall;
 }

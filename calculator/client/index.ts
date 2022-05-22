@@ -7,6 +7,7 @@ import {
   MaxResponse,
   MaxRequest,
 } from "../proto/calculator_pb";
+import { SqrtRequest } from "../proto/sqrt_pb";
 
 function doSum(client: CalculatorServiceClient) {
   console.log("doSum was invoked");
@@ -81,6 +82,20 @@ function doMax(client: CalculatorServiceClient) {
   call.end();
 }
 
+function doSqrt(client: CalculatorServiceClient, num: number) {
+  console.log("doSqrt was invoked");
+
+  const req = new SqrtRequest().setNumber(num);
+
+  client.sqrt(req, (err, res) => {
+    if (err) {
+      return console.log(err);
+    }
+
+    console.log(`Sqrt: ${res.getResult()}`);
+  });
+}
+
 function main() {
   const creds = grpc.ChannelCredentials.createInsecure();
   const client = new CalculatorServiceClient("localhost:50051", creds);
@@ -89,6 +104,8 @@ function main() {
   doPrimes(client);
   doAvg(client);
   doMax(client);
+  doSqrt(client, 25);
+  doSqrt(client, -5);
 
   client.close();
 }

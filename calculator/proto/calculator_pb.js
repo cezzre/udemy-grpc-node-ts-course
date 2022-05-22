@@ -15,6 +15,8 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
+var sqrt_pb = require('./sqrt_pb.js');
+goog.object.extend(proto, sqrt_pb);
 goog.exportSymbol('proto.calculator.AvgRequest', null, global);
 goog.exportSymbol('proto.calculator.AvgResponse', null, global);
 goog.exportSymbol('proto.calculator.MaxRequest', null, global);
