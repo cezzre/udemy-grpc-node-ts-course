@@ -1,6 +1,12 @@
 import * as grpc from "@grpc/grpc-js";
 import { CalculatorServiceClient } from "../proto/calculator_grpc_pb";
-import { SumRequest, PrimesRequest, AvgRequest } from "../proto/calculator_pb";
+import {
+  SumRequest,
+  PrimesRequest,
+  AvgRequest,
+  MaxResponse,
+  MaxRequest,
+} from "../proto/calculator_pb";
 
 function doSum(client: CalculatorServiceClient) {
   console.log("doSum was invoked");
@@ -52,6 +58,29 @@ function doAvg(client: CalculatorServiceClient) {
   call.end();
 }
 
+function doMax(client: CalculatorServiceClient) {
+  console.log("doMax was invoked");
+
+  // Generate numbers and shuffle the array.
+  const numbers = [...Array(100).keys()].sort(
+    () => Math.random() - Math.random(),
+  );
+
+  const call = client.max();
+
+  call.on("data", (res: MaxResponse) => {
+    console.log(`Max: ${res.getResult()}`);
+  });
+
+  numbers
+    .map((num) => new MaxRequest().setNumber(num))
+    .forEach((req) => {
+      call.write(req);
+    });
+
+  call.end();
+}
+
 function main() {
   const creds = grpc.ChannelCredentials.createInsecure();
   const client = new CalculatorServiceClient("localhost:50051", creds);
@@ -59,6 +88,7 @@ function main() {
   doSum(client);
   doPrimes(client);
   doAvg(client);
+  doMax(client);
 
   client.close();
 }

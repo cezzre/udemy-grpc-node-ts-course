@@ -1,4 +1,5 @@
 import {
+  handleBidiStreamingCall,
   handleClientStreamingCall,
   handleServerStreamingCall,
   handleUnaryCall,
@@ -6,6 +7,8 @@ import {
 import {
   AvgRequest,
   AvgResponse,
+  MaxRequest,
+  MaxResponse,
   PrimesRequest,
   PrimesResponse,
   SumRequest,
@@ -67,4 +70,26 @@ export const avg: handleClientStreamingCall<AvgRequest, AvgResponse> = (
 
     callback(null, res);
   });
+};
+
+export const max: handleBidiStreamingCall<MaxRequest, MaxResponse> = (call) => {
+  console.log("Max was invoked");
+
+  let max: number;
+
+  call.on("data", (req: MaxRequest) => {
+    console.log(`Received request: ${req}`);
+
+    const number = req.getNumber();
+
+    if (max === undefined || number > max) {
+      max = number;
+    }
+
+    const res = new MaxResponse().setResult(max);
+    console.log(`Sending response: ${res}`);
+    call.write(res);
+  });
+
+  call.on("end", () => call.end());
 };

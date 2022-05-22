@@ -11,6 +11,7 @@ interface ICalculatorServiceService extends grpc.ServiceDefinition<grpc.UntypedS
     sum: ICalculatorServiceService_ISum;
     primes: ICalculatorServiceService_IPrimes;
     avg: ICalculatorServiceService_IAvg;
+    max: ICalculatorServiceService_IMax;
 }
 
 interface ICalculatorServiceService_ISum extends grpc.MethodDefinition<calculator_pb.SumRequest, calculator_pb.SumResponse> {
@@ -40,6 +41,15 @@ interface ICalculatorServiceService_IAvg extends grpc.MethodDefinition<calculato
     responseSerialize: grpc.serialize<calculator_pb.AvgResponse>;
     responseDeserialize: grpc.deserialize<calculator_pb.AvgResponse>;
 }
+interface ICalculatorServiceService_IMax extends grpc.MethodDefinition<calculator_pb.MaxRequest, calculator_pb.MaxResponse> {
+    path: "/calculator.CalculatorService/Max";
+    requestStream: true;
+    responseStream: true;
+    requestSerialize: grpc.serialize<calculator_pb.MaxRequest>;
+    requestDeserialize: grpc.deserialize<calculator_pb.MaxRequest>;
+    responseSerialize: grpc.serialize<calculator_pb.MaxResponse>;
+    responseDeserialize: grpc.deserialize<calculator_pb.MaxResponse>;
+}
 
 export const CalculatorServiceService: ICalculatorServiceService;
 
@@ -47,6 +57,7 @@ export interface ICalculatorServiceServer extends grpc.UntypedServiceImplementat
     sum: grpc.handleUnaryCall<calculator_pb.SumRequest, calculator_pb.SumResponse>;
     primes: grpc.handleServerStreamingCall<calculator_pb.PrimesRequest, calculator_pb.PrimesResponse>;
     avg: grpc.handleClientStreamingCall<calculator_pb.AvgRequest, calculator_pb.AvgResponse>;
+    max: grpc.handleBidiStreamingCall<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
 }
 
 export interface ICalculatorServiceClient {
@@ -59,6 +70,9 @@ export interface ICalculatorServiceClient {
     avg(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: calculator_pb.AvgResponse) => void): grpc.ClientWritableStream<calculator_pb.AvgRequest>;
     avg(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: calculator_pb.AvgResponse) => void): grpc.ClientWritableStream<calculator_pb.AvgRequest>;
     avg(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: calculator_pb.AvgResponse) => void): grpc.ClientWritableStream<calculator_pb.AvgRequest>;
+    max(): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
+    max(options: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
+    max(metadata: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
 }
 
 export class CalculatorServiceClient extends grpc.Client implements ICalculatorServiceClient {
@@ -72,4 +86,6 @@ export class CalculatorServiceClient extends grpc.Client implements ICalculatorS
     public avg(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: calculator_pb.AvgResponse) => void): grpc.ClientWritableStream<calculator_pb.AvgRequest>;
     public avg(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: calculator_pb.AvgResponse) => void): grpc.ClientWritableStream<calculator_pb.AvgRequest>;
     public avg(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: calculator_pb.AvgResponse) => void): grpc.ClientWritableStream<calculator_pb.AvgRequest>;
+    public max(options?: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
+    public max(metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<calculator_pb.MaxRequest, calculator_pb.MaxResponse>;
 }

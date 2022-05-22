@@ -127,3 +127,43 @@ export namespace AvgResponse {
         result: number,
     }
 }
+
+export class MaxRequest extends jspb.Message { 
+    getNumber(): number;
+    setNumber(value: number): MaxRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): MaxRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: MaxRequest): MaxRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: MaxRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): MaxRequest;
+    static deserializeBinaryFromReader(message: MaxRequest, reader: jspb.BinaryReader): MaxRequest;
+}
+
+export namespace MaxRequest {
+    export type AsObject = {
+        number: number,
+    }
+}
+
+export class MaxResponse extends jspb.Message { 
+    getResult(): number;
+    setResult(value: number): MaxResponse;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): MaxResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: MaxResponse): MaxResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: MaxResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): MaxResponse;
+    static deserializeBinaryFromReader(message: MaxResponse, reader: jspb.BinaryReader): MaxResponse;
+}
+
+export namespace MaxResponse {
+    export type AsObject = {
+        result: number,
+    }
+}
