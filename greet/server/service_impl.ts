@@ -1,4 +1,8 @@
-import { handleServerStreamingCall, handleUnaryCall } from "@grpc/grpc-js";
+import {
+  handleClientStreamingCall,
+  handleServerStreamingCall,
+  handleUnaryCall,
+} from "@grpc/grpc-js";
 import { GreetRequest, GreetResponse } from "../proto/greet_pb";
 
 export const greet: handleUnaryCall<GreetRequest, GreetResponse> = (
@@ -28,4 +32,24 @@ export const greetManyTimes: handleServerStreamingCall<
   }
 
   call.end();
+};
+
+export const longGreet: handleClientStreamingCall<
+  GreetRequest,
+  GreetResponse
+> = (call, callback) => {
+  console.log("LongGreet was invoked");
+
+  const names: string[] = [];
+
+  call.on("data", (req: GreetRequest) => {
+    names.push(req.getFirstName());
+  });
+
+  call.on("end", () => {
+    const res = new GreetResponse();
+    res.setResult(`Hello to: ${names.join(", ")}.`);
+
+    callback(null, res);
+  });
 };
