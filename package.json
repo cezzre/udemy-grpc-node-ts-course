@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gen:pb": "./scripts/gen.sh greet calculator",
+    "gen:pb": "./scripts/gen.sh greet calculator blog",
     "gen:ssl": "cd ssl && ../scripts/ssl.sh && cd ..",
     "greet:server": "ts-node ./greet/server",
     "greet:client": "ts-node ./greet/client",
     "calculator:server": "ts-node ./calculator/server",
-    "calculator:client": "ts-node ./calculator/client"
+    "calculator:client": "ts-node ./calculator/client",
+    "blog:server": "ts-node ./blog/server",
+    "blog:client": "ts-node ./blog/client"
   },
   "keywords": [],
   "author": "",
