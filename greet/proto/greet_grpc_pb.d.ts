@@ -11,6 +11,7 @@ interface IGreetServiceService extends grpc.ServiceDefinition<grpc.UntypedServic
     greet: IGreetServiceService_IGreet;
     greetManyTimes: IGreetServiceService_IGreetManyTimes;
     longGreet: IGreetServiceService_ILongGreet;
+    greetEveryone: IGreetServiceService_IGreetEveryone;
 }
 
 interface IGreetServiceService_IGreet extends grpc.MethodDefinition<greet_pb.GreetRequest, greet_pb.GreetResponse> {
@@ -40,6 +41,15 @@ interface IGreetServiceService_ILongGreet extends grpc.MethodDefinition<greet_pb
     responseSerialize: grpc.serialize<greet_pb.GreetResponse>;
     responseDeserialize: grpc.deserialize<greet_pb.GreetResponse>;
 }
+interface IGreetServiceService_IGreetEveryone extends grpc.MethodDefinition<greet_pb.GreetRequest, greet_pb.GreetResponse> {
+    path: "/greet.GreetService/GreetEveryone";
+    requestStream: true;
+    responseStream: true;
+    requestSerialize: grpc.serialize<greet_pb.GreetRequest>;
+    requestDeserialize: grpc.deserialize<greet_pb.GreetRequest>;
+    responseSerialize: grpc.serialize<greet_pb.GreetResponse>;
+    responseDeserialize: grpc.deserialize<greet_pb.GreetResponse>;
+}
 
 export const GreetServiceService: IGreetServiceService;
 
@@ -47,6 +57,7 @@ export interface IGreetServiceServer extends grpc.UntypedServiceImplementation {
     greet: grpc.handleUnaryCall<greet_pb.GreetRequest, greet_pb.GreetResponse>;
     greetManyTimes: grpc.handleServerStreamingCall<greet_pb.GreetRequest, greet_pb.GreetResponse>;
     longGreet: grpc.handleClientStreamingCall<greet_pb.GreetRequest, greet_pb.GreetResponse>;
+    greetEveryone: grpc.handleBidiStreamingCall<greet_pb.GreetRequest, greet_pb.GreetResponse>;
 }
 
 export interface IGreetServiceClient {
@@ -59,6 +70,9 @@ export interface IGreetServiceClient {
     longGreet(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: greet_pb.GreetResponse) => void): grpc.ClientWritableStream<greet_pb.GreetRequest>;
     longGreet(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: greet_pb.GreetResponse) => void): grpc.ClientWritableStream<greet_pb.GreetRequest>;
     longGreet(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: greet_pb.GreetResponse) => void): grpc.ClientWritableStream<greet_pb.GreetRequest>;
+    greetEveryone(): grpc.ClientDuplexStream<greet_pb.GreetRequest, greet_pb.GreetResponse>;
+    greetEveryone(options: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<greet_pb.GreetRequest, greet_pb.GreetResponse>;
+    greetEveryone(metadata: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<greet_pb.GreetRequest, greet_pb.GreetResponse>;
 }
 
 export class GreetServiceClient extends grpc.Client implements IGreetServiceClient {
@@ -72,4 +86,6 @@ export class GreetServiceClient extends grpc.Client implements IGreetServiceClie
     public longGreet(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: greet_pb.GreetResponse) => void): grpc.ClientWritableStream<greet_pb.GreetRequest>;
     public longGreet(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: greet_pb.GreetResponse) => void): grpc.ClientWritableStream<greet_pb.GreetRequest>;
     public longGreet(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: greet_pb.GreetResponse) => void): grpc.ClientWritableStream<greet_pb.GreetRequest>;
+    public greetEveryone(options?: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<greet_pb.GreetRequest, greet_pb.GreetResponse>;
+    public greetEveryone(metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientDuplexStream<greet_pb.GreetRequest, greet_pb.GreetResponse>;
 }

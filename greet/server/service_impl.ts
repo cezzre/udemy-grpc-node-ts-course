@@ -1,4 +1,5 @@
 import {
+  handleBidiStreamingCall,
   handleClientStreamingCall,
   handleServerStreamingCall,
   handleUnaryCall,
@@ -52,4 +53,20 @@ export const longGreet: handleClientStreamingCall<
 
     callback(null, res);
   });
+};
+
+export const greetEveryone: handleBidiStreamingCall<
+  GreetRequest,
+  GreetResponse
+> = (call) => {
+  console.log("GreetEveryone was invoked");
+
+  call.on("data", (req: GreetRequest) => {
+    console.log(`Received request: ${req}`);
+    const res = new GreetResponse().setResult(`Hello ${req.getFirstName()}`);
+    console.log(`Sending response: ${res}`);
+    call.write(res);
+  });
+
+  call.on("end", () => call.end());
 };
