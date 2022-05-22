@@ -1,8 +1,11 @@
 import {
+  handleClientStreamingCall,
   handleServerStreamingCall,
   handleUnaryCall,
 } from "@grpc/grpc-js/build/src/server-call";
 import {
+  AvgRequest,
+  AvgResponse,
   PrimesRequest,
   PrimesResponse,
   SumRequest,
@@ -44,4 +47,24 @@ export const primes: handleServerStreamingCall<
   }
 
   call.end();
+};
+
+export const avg: handleClientStreamingCall<AvgRequest, AvgResponse> = (
+  call,
+  callback,
+) => {
+  console.log("Avg was invoked");
+
+  const numbers: number[] = [];
+
+  call.on("data", (req: AvgRequest) => {
+    numbers.push(req.getNumber());
+  });
+
+  call.on("end", () => {
+    const avg = numbers.reduce((sum, num) => (sum += num), 0) / numbers.length;
+    const res = new AvgResponse().setResult(avg);
+
+    callback(null, res);
+  });
 };

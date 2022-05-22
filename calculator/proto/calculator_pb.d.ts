@@ -87,3 +87,43 @@ export namespace PrimesResponse {
         result: number,
     }
 }
+
+export class AvgRequest extends jspb.Message { 
+    getNumber(): number;
+    setNumber(value: number): AvgRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AvgRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: AvgRequest): AvgRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AvgRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AvgRequest;
+    static deserializeBinaryFromReader(message: AvgRequest, reader: jspb.BinaryReader): AvgRequest;
+}
+
+export namespace AvgRequest {
+    export type AsObject = {
+        number: number,
+    }
+}
+
+export class AvgResponse extends jspb.Message { 
+    getResult(): number;
+    setResult(value: number): AvgResponse;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AvgResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: AvgResponse): AvgResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AvgResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AvgResponse;
+    static deserializeBinaryFromReader(message: AvgResponse, reader: jspb.BinaryReader): AvgResponse;
+}
+
+export namespace AvgResponse {
+    export type AsObject = {
+        result: number,
+    }
+}

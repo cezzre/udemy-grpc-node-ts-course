@@ -1,6 +1,6 @@
 import * as grpc from "@grpc/grpc-js";
 import { CalculatorServiceClient } from "../proto/calculator_grpc_pb";
-import { SumRequest, PrimesRequest } from "../proto/calculator_pb";
+import { SumRequest, PrimesRequest, AvgRequest } from "../proto/calculator_pb";
 
 function doSum(client: CalculatorServiceClient) {
   console.log("doSum was invoked");
@@ -30,12 +30,35 @@ function doPrimes(client: CalculatorServiceClient) {
   });
 }
 
+function doAvg(client: CalculatorServiceClient) {
+  console.log("doAvg was invoked");
+
+  const numbers = [1, 2, 3, 4];
+
+  const call = client.avg((err, res) => {
+    if (err) {
+      return console.log(err);
+    }
+
+    console.log(`Avg: ${res.getResult()}`);
+  });
+
+  numbers
+    .map((num) => new AvgRequest().setNumber(num))
+    .forEach((req) => {
+      call.write(req);
+    });
+
+  call.end();
+}
+
 function main() {
   const creds = grpc.ChannelCredentials.createInsecure();
   const client = new CalculatorServiceClient("localhost:50051", creds);
 
   doSum(client);
   doPrimes(client);
+  doAvg(client);
 
   client.close();
 }
