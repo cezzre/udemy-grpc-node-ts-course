@@ -1,4 +1,4 @@
-import * as grpc from "@grpc/grpc-js";
+import { ChannelCredentials, Metadata } from "@grpc/grpc-js";
 import { GreetServiceClient } from "../proto/greet_grpc_pb";
 import { GreetRequest } from "../proto/greet_pb";
 
@@ -69,14 +69,37 @@ function doGreetEveryone(client: GreetServiceClient) {
   call.end();
 }
 
+function doGreetWithDeadline(client: GreetServiceClient, ms: number) {
+  console.log("doGreetWithDeadline was invoked");
+
+  const req = new GreetRequest().setFirstName("Clement");
+
+  client.greetWithDeadline(
+    req,
+    new Metadata(),
+    {
+      deadline: new Date(Date.now() + ms),
+    },
+    (err, res) => {
+      if (err) {
+        return console.log(err);
+      }
+
+      console.log(`GreetWithDeadline: ${res.getResult()}`);
+    },
+  );
+}
+
 function main() {
-  const creds = grpc.ChannelCredentials.createInsecure();
+  const creds = ChannelCredentials.createInsecure();
   const client = new GreetServiceClient("localhost:50051", creds);
 
   doGreet(client);
   doGreetManyTimes(client);
   doLongGreet(client);
   doGreetEveryone(client);
+  doGreetWithDeadline(client, 1000);
+  doGreetWithDeadline(client, 5000);
 
   client.close();
 }

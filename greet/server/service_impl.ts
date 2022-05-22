@@ -5,6 +5,7 @@ import {
   handleUnaryCall,
 } from "@grpc/grpc-js";
 import { GreetRequest, GreetResponse } from "../proto/greet_pb";
+import { sleep } from "./helpers";
 
 export const greet: handleUnaryCall<GreetRequest, GreetResponse> = (
   call,
@@ -69,4 +70,25 @@ export const greetEveryone: handleBidiStreamingCall<
   });
 
   call.on("end", () => call.end());
+};
+
+export const greetWithDeadline: handleUnaryCall<
+  GreetRequest,
+  GreetResponse
+> = async (call, callback) => {
+  console.log("GreetWithDeadline was invoked");
+
+  for (const _ of Array(3)) {
+    if (call.cancelled) {
+      return console.log("The client cancelled the request");
+    }
+
+    await sleep(1000);
+  }
+
+  const res = new GreetResponse().setResult(
+    `Hello ${call.request.getFirstName()}`,
+  );
+
+  callback(null, res);
 };
