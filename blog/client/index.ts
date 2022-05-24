@@ -1,4 +1,5 @@
 import { ChannelCredentials } from "@grpc/grpc-js";
+import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { BlogServiceClient } from "../proto/blog_grpc_pb";
 import { Blog, BlogId } from "../proto/blog_pb";
 
@@ -56,6 +57,25 @@ function updateBlog(client: BlogServiceClient, id: BlogId) {
   });
 }
 
+function listBlogs(client: BlogServiceClient) {
+  console.log("listBlogs was invoked");
+
+  return new Promise<void>((resolve, reject) => {
+    const req = new Empty();
+    const call = client.listBlogs(req);
+
+    call.on("data", (res) => {
+      console.log(res);
+    });
+
+    call.on("error", (err) => {
+      reject(err);
+    });
+
+    call.on("end", () => resolve());
+  });
+}
+
 async function main() {
   const creds = ChannelCredentials.createInsecure();
   const client = new BlogServiceClient("localhost:50051", creds);
@@ -64,6 +84,7 @@ async function main() {
   await readBlog(client, id);
   await updateBlog(client, id);
   await readBlog(client, id);
+  await listBlogs(client);
 
   client.close();
 }

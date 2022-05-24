@@ -1,4 +1,5 @@
 import {
+  handleServerStreamingCall,
   handleUnaryCall,
   sendUnaryData,
   ServerErrorResponse,
@@ -120,5 +121,20 @@ export const updateBlog: handleUnaryCall<Blog, Empty> = async (
     callback(null, new Empty());
   } catch (err) {
     internal(err as Error, callback);
+  }
+};
+
+export const listBlogs: handleServerStreamingCall<Empty, Blog> = async (
+  call,
+) => {
+  try {
+    await collection
+      .find()
+      .map((doc) => documentToBlog(doc as WithId<IBlogDocument>))
+      .forEach((blog) => call.write(blog));
+
+    call.end();
+  } catch (err) {
+    call.destroy(new Error("Could not list blogs"));
   }
 };
