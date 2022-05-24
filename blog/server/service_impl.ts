@@ -4,10 +4,11 @@ import {
   ServerErrorResponse,
   status,
 } from "@grpc/grpc-js";
-import { InsertOneResult, ObjectId, WithId } from "mongodb";
+import { ObjectId, WithId } from "mongodb";
 import { Document as MongoDocument } from "mongodb";
 import { collection } from ".";
 import { Blog, BlogId } from "../proto/blog_pb";
+import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 
 interface IBlogDocument extends MongoDocument {
   author_id: string;
@@ -38,7 +39,7 @@ const internal = (err: ServerErrorResponse, callback: sendUnaryData<any>) =>
   });
 
 function checkNotAcknowledged(
-  res: InsertOneResult,
+  res: { acknowledged: boolean },
   callback: sendUnaryData<any>,
 ) {
   if (!res.acknowledged) {
@@ -78,10 +79,7 @@ const checkOID = (id: string, callback: sendUnaryData<BlogId>) => {
   }
 };
 
-const checkNotFound = (
-  res: WithId<IBlogDocument> | null,
-  callback: sendUnaryData<any>,
-) => {
+const checkNotFound = (res: any, callback: sendUnaryData<any>) => {
   if (!res) {
     callback({
       code: status.NOT_FOUND,
@@ -100,6 +98,26 @@ export const readBlog: handleUnaryCall<Blog, BlogId> = async (
     const res = await collection.findOne<WithId<IBlogDocument>>({ _id: oid });
     checkNotFound(res, callback);
     callback(null, documentToBlog(res!));
+  } catch (err) {
+    internal(err as Error, callback);
+  }
+};
+
+export const updateBlog: handleUnaryCall<Blog, Empty> = async (
+  call,
+  callback,
+) => {
+  const oid = checkOID(call.request.getId(), callback);
+
+  try {
+    const res = await collection.updateOne(
+      { _id: oid },
+      { $set: blogToDocument(call.request) },
+    );
+    checkNotFound(res, callback);
+    checkNotAcknowledged(res, callback);
+
+    callback(null, new Empty());
   } catch (err) {
     internal(err as Error, callback);
   }

@@ -35,11 +35,34 @@ function readBlog(client: BlogServiceClient, id: BlogId) {
   });
 }
 
+function updateBlog(client: BlogServiceClient, id: BlogId) {
+  console.log("updateBlog was invoked");
+
+  return new Promise<void>((resolve, reject) => {
+    const req = new Blog()
+      .setId(id.getId())
+      .setAuthorId("Cezzre")
+      .setTitle("My first blog (updated)")
+      .setContent("New content");
+
+    client.updateBlog(req, (err) => {
+      if (err) {
+        reject(err);
+      }
+
+      console.log(`Blog was updated`);
+      resolve();
+    });
+  });
+}
+
 async function main() {
   const creds = ChannelCredentials.createInsecure();
   const client = new BlogServiceClient("localhost:50051", creds);
 
   const id = await createBlog(client);
+  await readBlog(client, id);
+  await updateBlog(client, id);
   await readBlog(client, id);
 
   client.close();
