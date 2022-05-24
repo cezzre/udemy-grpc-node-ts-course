@@ -138,3 +138,19 @@ export const listBlogs: handleServerStreamingCall<Empty, Blog> = async (
     call.destroy(new Error("Could not list blogs"));
   }
 };
+
+export const deleteBlog: handleUnaryCall<BlogId, Empty> = async (
+  call,
+  callback,
+) => {
+  const oid = checkOID(call.request.getId(), callback);
+
+  try {
+    const res = await collection.deleteOne({ _id: oid });
+    checkNotFound(res, callback);
+    checkNotAcknowledged(res, callback);
+    callback(null, new Empty());
+  } catch (err) {
+    internal(err as Error, callback);
+  }
+};

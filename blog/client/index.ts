@@ -76,6 +76,21 @@ function listBlogs(client: BlogServiceClient) {
   });
 }
 
+function deleteBlog(client: BlogServiceClient, id: BlogId) {
+  console.log("deleteBlog was invoked");
+
+  return new Promise<void>((resolve, reject) => {
+    client.deleteBlog(id, (err) => {
+      if (err) {
+        reject(err);
+      }
+
+      console.log(`Blog with id ${id} was deleted`);
+      resolve();
+    });
+  });
+}
+
 async function main() {
   const creds = ChannelCredentials.createInsecure();
   const client = new BlogServiceClient("localhost:50051", creds);
@@ -85,6 +100,7 @@ async function main() {
   await updateBlog(client, id);
   await readBlog(client, id);
   await listBlogs(client);
+  await deleteBlog(client, id);
 
   client.close();
 }
