@@ -10,6 +10,8 @@
     "greet:client": "ts-node ./greet/client",
     "calculator:server": "ts-node ./calculator/server",
     "calculator:client": "ts-node ./calculator/client",
+    "calculator:proxy": "envoy -c ./calculator/web/envoy.yaml",
+    "calculator:web": "parcel ./calculator/web/index.html --no-cache --dist-dir .parcel",
     "blog:server": "ts-node ./blog/server",
     "blog:client": "ts-node ./blog/client"
   },
@@ -27,6 +29,7 @@
     "@types/google-protobuf": "^3.15.6",
     "grpc_tools_node_protoc_ts": "^5.3.2",
     "grpc-tools": "^1.11.2",
+    "parcel": "^2.6.0",
     "protoc-gen-grpc-web": "^1.4.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4"

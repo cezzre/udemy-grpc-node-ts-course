@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <style>
+      form {
+        display: flex;
+        align-items: center;
+      }
+
+      form * {
+        margin: 0.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <form name="sum">
+      <input
+        name="sum-string"
+        type="text"
+        value="2+2"
+        pattern="^[^\+][0-9\+]+[^\+]$"
+      />
+      <button>Sum</button>
+      <div></div>
+    </form>
+    <form name="primes">
+      <input name="number" type="number" value="34523" pattern="[0-9]+" />
+      <button>Primes</button>
+      <div></div>
+    </form>
+    <script src="./src/main.ts" type="module"></script>
+  </body>
+</html>
